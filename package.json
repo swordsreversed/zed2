@@ -1,0 +1,57 @@
+{
+  "name": "zed2",
+  "version": "0.0.0",
+  "dependencies": {
+    "express": "~3.4.3",
+    "ejs": "~0.8.4",
+    "orm": "~2.1.3",
+    "pg": "~2.8.3",
+    "passport": "~0.1.17",
+    "passport-local": "~0.1.6",
+    "connect-flash": "~0.1.1",
+    "async": "~0.2.9",
+    "lodash": "~2.4.1",
+    "resource-routing": "*",
+  },
+  "devDependencies": {
+    "jshint-stylish": "~0.1.3",
+    "connect-livereload": "~0.3.2",
+    "karma-ng-scenario": "~0.1.0",
+    "karma-script-launcher": "~0.1.0",
+    "karma-chrome-launcher": "~0.1.1",
+    "karma-html2js-preprocessor": "~0.1.0",
+    "karma-firefox-launcher": "~0.1.2",
+    "karma-jasmine": "~0.1.3",
+    "karma-coffee-preprocessor": "~0.1.1",
+    "requirejs": "~2.1.9",
+    "karma-requirejs": "~0.2.0",
+    "karma-phantomjs-launcher": "~0.1.1",
+    "karma": "~0.10.6",
+    "karma-ng-html2js-preprocessor": "~0.1.0",
+    "gulp-util": "~2.2.14",
+    "gulp": "~3.5.1",
+    "gulp-livereload": "~0.3.1",
+    "gulp-concat": "~2.1.7",
+    "gulp-rename": "~0.2.2",
+    "gulp-ruby-sass": "~0.3.0",
+    "tiny-lr": "0.0.5",
+    "gulp-minify-css": "~0.2.0",
+    "gulp-clean": "~0.2.4",
+    "gulp-autoprefixer": "0.0.6",
+    "gulp-uglify": "~0.2.0",
+    "gulp-notify": "~0.4.0",
+    "gulp-jshint": "~1.3.4",
+    "gulp-cache": "~0.1.1",
+    "gulp-imagemin": "~0.1.4",
+    "gulp-sass": "~0.6.0",
+    "gulp-nodemon": "~0.1.2",
+    "gulp-open": "~0.2.8",
+    "gulp-connect": "~0.1.6"
+  },
+  "engines": {
+    "node": ">=0.8.0"
+  },
+  "scripts": {
+    "test": "grunt test"
+  }
+}

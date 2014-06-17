@@ -1,0 +1,99 @@
+@import "foundation/_settings", "normalize", "foundation";
+
+
+// Our styles
+select {
+	padding: 0 .5rem;
+}
+.gutter-top {
+	margin-top: $column-gutter;
+}
+.double-gutter-top {
+	margin-top: $column-gutter*2;
+}
+.desktop__border-bottom {
+	border-bottom: 1px solid $primary-color;
+}
+.gridStyle {
+	border: 1px solid #d4d4d4;
+	width: 280px;
+	height: 150px;
+}
+button.disabled,
+button[disabled],
+.button.disabled,
+.button[disabled] {
+	opacity: 0.3;
+}
+@media print {
+	#searchbox,
+	.navbar {
+	  display:none;
+	}
+}
+.invalid {
+	color:#EF002A;
+	font-weight: bold;
+}
+.side-nav-subs {
+	overflow-y: scroll;
+	height: 200px
+}
+.side-nav li a {
+	&:hover {
+		color: darken($anchor-font-color, 10%);
+	}
+}
+.active {
+	background-color: darken($panel-bg, 5%);
+}
+
+@media #{$medium-up} {
+
+	.side-nav-subs {
+
+		overflow-y: scroll;
+		height: 500px
+	}
+
+}
+.search__results {
+	overflow-y: scroll;
+	height: auto;
+	max-height: 200px;
+	table {
+		width: 100%;
+	}
+}
+.is-button-green{
+  @include button($bg:#5bb75b);
+}
+.is-button-blank{
+  @include button();
+}
+.is-panel-success {
+  @include panel($bg:#5bb75b,$adjust:true);
+}
+
+/* ng animations */
+// .wave-enter, .wave-leave {
+//     transition:all 1.5s;
+// }
+// .wave-enter {
+// 	opacity: 0;
+//     left:-100%;
+// }
+// .wave-enter-active {
+// 	opacity: 1;
+//     left:0;
+// }
+// .wave-leave {
+// 	opacity: 1;
+//     left:0;
+// }
+// .wave-leave-active {
+// 	opacity: 0;
+//     left:100%;
+// }
+
+

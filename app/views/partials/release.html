@@ -1,0 +1,158 @@
+<div class="row">
+	<form name="releaseSearchForm" ng-submit="search()">
+	<div class="large-12 columns">
+		<h3>Music Library</h3>
+	</div>
+	<div class="large-4 small-12 columns">
+		<input type="search" value="" name="artist_nm" placeholder="Artist" ng-model="releaseSearchFormData.artist_nm" typeahead-min-length="3" typeahead="suggestion.artist_nm for suggestion in artistsuggest($viewValue) | limitTo:15" ng-uppercase-input2 autofocus />
+	</div>
+	<div class="large-3 small-12 columns">
+		<input class="input-medium search-query" type="search" placeholder="Title" ng-model="releaseSearchFormData.title" typeahead="suggestion.title for suggestion in titlesuggest($viewValue)" typeahead-min-length="3" ng-uppercase-input2 />
+	</div>
+	<div class="large-3 small-12 columns">
+		<input class="input-medium search-query" type="search" placeholder="Label" ng-model="releaseSearchFormData.album_label" typeahead="suggestion for suggestion in labelsuggest($viewValue)" typeahead-min-length="3" ng-uppercase-input2 />
+	</div>
+	<div class="large-1 small-12 columns">
+		<button class="button tiny radius right" type="submit" id="search-button" ng-disabled="releaseSearchForm.$pristine">Search</button>
+	</div>
+	<div class="large-1 small-12 columns">
+		<button class="button tiny alert right" type="button" ng-click="clearForm();" id="clear-button" ng-disabled="subscriberSearchForm.$pristine">Clear</button>
+	</div>
+	<!-- advanced search -->
+	<div class="large-12 columns" ng-show="isAdvanced">
+
+		<div class="panel">
+			<div class="row">
+				<div class="large-2 small-12 columns">
+					<input class="input-medium search-query" type="search" placeholder="Apra Code" ng-model="releaseSearchFormData.apra_code" typeahead="suggestion for suggestion in aprasuggest($viewValue)" typeahead-min-length="3" />
+				</div>
+				<div class="large-2 small-12 columns">
+					<input class="input-small search-query" type="search" name="release_year" ng-model="releaseSearchFormData.release_year" placeholder="Release Year" />
+				</div>
+				<div class="large-2 small-12 columns">
+					<input class="input-medium search-query" type="text" name="release_location" ng-model="releaseSearchFormData.release_location" placeholder="Log" />
+				</div>
+				<div class="large-4 small-12 columns">
+					<label>Local?</label>
+					<input type="checkbox" name="cont_local" ng-model="releaseSearchFormData.cont_local" ng-true-value="L" ng-false-value="" >
+					<label>Female?</label>
+					<input type="checkbox" name="cont_female" ng-model="releaseSearchFormData.cont_female" ng-true-value="F" ng-false-value="" >
+					<label>Aus/NZ?</label>
+					<select ng-model="releaseSearchFormData.cont_ausnz" name="release.cont_ausnz" class="input-small" ng-options="a for a in ausnz">
+						<option></option>
+					</select>
+				</div>
+				<div class="large-4 small-12 columns">
+					<input class="input-medium search-query" type="text" name="release_notes" ng-model="releaseSearchFormData.release_notes" placeholder="Release Comments" />
+				</div>
+
+				<div class="large-4 small-12 columns">
+					<input class="input-medium search-query" type="search" name="artist_hometown" ng-model="releaseSearchFormData.artist_hometown" placeholder="Home Town" typeahead="suggestion.artist_hometown for suggestion in hometownsuggest($viewValue)" typeahead-min-length="3"  ng-uppercase-input2 />
+				</div>
+				<div class="large-4 small-12 columns">
+					<input class="input-medium search-query" type="search" name="album_origin" ng-model="releaseSearchFormData.album_origin" placeholder="Country" typeahead="suggestion.album_origin for suggestion in countrysuggest($viewValue)" typeahead-min-length="3" ng-uppercase-input2 />
+				</div>
+				<div class="large-4 small-12 columns">
+				<select ui-select2 ng-model="releaseSearchFormData.cont_genre" class="input-large" multiple >
+										<option ng-repeat="g in genres" value="{{g.genre_id}}">{{g.genre_desc}}</option>
+									</select>
+				</div>
+				<div class="large-4 small-12 columns">
+				<select ui-select2 ng-model="releaseSearchFormData.cont_subgenre" class="input-large" multiple >
+										<option ng-repeat="g in genres" value="{{g.genre_id}}">{{g.genre_desc}}</option>
+									</select>
+									</div>
+				<div class="large-4 small-12 columns">
+					<select ng-model="releaseSearchFormData.release_location" name="release_location" class="input-small" ng-options="f.format_srch as f.format_desc for f in extendedFormats">
+						<option></option>
+					</select>
+				</div>
+				<div class="large-4 small-12 columns">
+					<select ng-model="releaseSearchFormData.format_stored" name="format_stored" class="input-small" ng-options="f as f for f in format"><option></option>
+					</select>
+				</div>
+				<div class="large-4 small-12 columns">
+					<input class="input-small search-query" type="search" name="user" ng-model="releaseSearchFormData.modify_user" placeholder="User" />
+				</div>
+			</div>
+		</div>
+	</div>
+
+
+	</form>
+	<div class="large-12 columns">
+		<div class="row">
+			<div class="large-2 small-12 columns">
+				<button class="button tiny is-button-blank radius" href="" ng-click="isAdvanced = !isAdvanced" >Advanced Search</button>
+			</div>
+			<div class="large-7 small-12 columns">
+
+			</div>
+			<div class="large-3 small-12 columns right">
+				<button class="button tiny radius is-button-green right" ng-click="addNew();">Add New Release</button>
+			</div>
+		</div>
+	</div>
+
+	<div class="large-12 columns">
+		<h5 ng-show="releases.$resolved">{{releases.length}} releases found.</h5>
+		<h5 ng-show="release.$resolved">1 release found.</h5>
+	</div>
+	<div ng-show="release.$resolved" class="large-12 columns search__results">
+		<table>
+			<tr>
+				<th><a href="" ng-click="predicate = 'sublastname'; reverse=!reverse">Name</a>
+				</th>
+				<th><a href="" ng-click="predicate = 'sublastname'; reverse=!reverse">Business Name</a>
+				</th>
+				<th><a href="" ng-click="predicate = 'sublastname'; reverse=!reverse">Band Name</a>
+				</th>
+				<th><a href="" ng-click="predicate = 'sublastname'; reverse=!reverse">Pet Name</a>
+				</th>
+				<th><a href="" ng-click="predicate = 'subnumber'; reverse=!reverse">Sub Number</a>
+				</th>
+				<th><a href="" ng-click="predicate = 'subscription.subtypecode'; reverse=!reverse">Sub Type</a>
+				</th>
+				<th><a href="" ng-click="predicate = 'createddate'; reverse=!reverse">Date Joined</a>
+				</th>
+			</tr>
+			<tr>
+				<td><a href="#/subscribers/{{sub.subnumber}}">{{sub.subfirstname}} {{sub.sublastname}}</a>
+				</td>
+				<td>{{sub.subbusinessname}}</td>
+				<td>{{sub.subbandname}}</td>
+				<td>{{sub.petname}}</td>
+				<td>{{sub.subnumber}}</td>
+				<td>{{sub.subscription.subtypecode}}</td>
+				<td>{{sub.createddate}}</td>
+			</tr>
+		</table>
+	</div>
+	<div ng-show="releases.$resolved && releases.length != 0" class="large-12 columns search__results">
+		<table class="table table-striped">
+			<tr>
+				<th><a href="" ng-click="predicate = 'artist_nm'; reverse=!reverse">Artist</a></th>
+			  	<th><a href="" ng-click="predicate = 'title'; reverse=!reverse">Title</a></th>
+			  	<th><a href="" ng-click="predicate = 'library_no'; reverse=!reverse">Record #</a></th>
+			  	<th><a href="" ng-click="predicate = 'release_year'; reverse=!reverse">Year</a></th>
+			  	<th><a href="" ng-click="predicate = 'entered_dt'; reverse=!reverse">Created</a></th>
+			</tr>
+			<tr ng-repeat="release in releases  | orderBy:predicate:reverse">
+				<td>{{release.artist_nm}}</td>
+				<td><a href="/releases/{{release.library_no}}">{{release.title}}</a></td>
+			  	<td>{{release.library_no}}</td>
+			  	<td>{{release.release_year}}</td>
+				<td>{{release.entered_dt  | date:'yyyy-MM-dd' }}</td>
+			</tr>
+		</table>
+	</div>
+	<div class="large-12 columns search__results" ng-show="releases.$resolved && releases.length == 0">
+		<h3>Nothing found yo!</h3>
+	</div>
+	<div class="large-12 small-12 columns">
+		<div class="row">
+			<div ui-view></div>
+		</div>
+	</div>
+
+

@@ -1,0 +1,207 @@
+<form class="form-horizontal">
+		<fieldset>
+				<div class="container">
+						<div class="row brown-border-bottom">
+								<h2>{{contact.org_nm}}</h2>
+								<ul class="inline">
+										<li>
+												<strong>ID:</strong>{{contact.contact_no}}</li>
+										<li>
+												<strong>Created:</strong>{{contact.created_at}}</li>
+										<li>
+												<strong>Last Updated:</strong>{{contact.updated_at}}</li>
+								</ul>
+
+								<alert ng-repeat="alert in alerts" type="alert.type" close="closeAlert($index)">{{ alert.msg }}</alert>
+						</div>
+						<div class="row">
+								<div class="span6">
+										<div class="form-box">
+												<h6 class="sideheader">Contact</h6>
+
+												<div class="control-group" style="clear:both">
+														<label class="control-label">Organisation</label>
+														<div class="controls">
+																<input type="text" ng-uppercase-input="" class="input-xlarge" ng-model="contact.org_nm" ng-change="conCheck(contact.org_nm)" required="">
+														</div>
+														<!-- <div style="padding:10px;margin-top:10px;" class="alert alert-error" ng-show="consuggest.length != 0">
+																<strong>Hey! A contact by this name already exists. Please check if they are the same.</strong>
+																<ul class="unstyled" style="margin-top:10px;">
+																		<li ng-repeat="c in consuggest"><a href="/contacts/{{c.contact_no}}">{{c.org_nm}} {{c.contact_nm}} - {{c.email}}</a>
+																		</li>
+																</ul>
+														</div> -->
+												</div>
+
+												<div class="control-group">
+														<label class="control-label">Contact Name</label>
+														<div class="controls">
+																<input type="text" ng-uppercase-input="" class="input-xlarge" ng-model="contact.contact_nm" required="">
+														</div>
+												</div>
+												<div class="control-group">
+														<label class="control-label">Work Ph</label>
+														<div class="controls">
+																<input type="text" class="input-xlarge" ng-model="contact.work_ph">
+														</div>
+												</div>
+												<div class="control-group">
+														<label class="control-label">Mobile</label>
+														<div class="controls">
+																<input type="text" class="input-xlarge" ng-model="contact.mobile_ph">
+														</div>
+												</div>
+												<div class="control-group">
+														<label class="control-label">Email</label>
+														<div class="controls">
+																<input type="text" class="input-xlarge" ng-model="contact.email">
+														</div>
+												</div>
+
+												<div class="control-group">
+														<label class="control-label">Notes</label>
+														<div class="controls">
+																<textarea ng-model="contact.notes" class="input-xlarge" rows="9"></textarea>
+														</div>
+												</div>
+
+
+										</div>
+										<!-- end contact section -->
+										<div class="form-box">
+												<h6 class="sideheader">Details</h6>
+												<div class="control-group" style="clear:both">
+														<label class="control-label">Website</label>
+														<div class="controls">
+																<input type="text" class="input-xlarge" ng-model="contact.website">
+														</div>
+												</div>
+
+												<div class="control-group">
+														<label class="control-label">Email (Other)</label>
+														<div class="controls">
+																<input type="text" class="input-xlarge" ng-model="contact.other_email">
+														</div>
+												</div>
+												<div class="control-group">
+														<label class="control-label">Fax</label>
+														<div class="controls">
+																<input type="text" class="input-xlarge" ng-model="contact.fax_no">
+														</div>
+												</div>
+												<div class="control-group">
+														<label class="control-label">Home Ph</label>
+														<div class="controls">
+																<input type="text" class="input-xlarge" ng-model="contact.home_ph">
+														</div>
+												</div>
+												<div class="control-group">
+														<label class="control-label">ABN / ACN</label>
+														<div class="controls">
+																<input type="text" class="input-xlarge" ng-model="contact.org_abn">
+														</div>
+												</div>
+
+
+										</div>
+										<!-- end details section -->
+
+								</div>
+								<!-- end span 6  -->
+
+								<div class="span6">
+
+
+										<div class="form-box">
+												<h6 class="sideheader">Address</h6>
+												<div class="control-group" style="clear:both">
+														<label class="control-label">Street No</label>
+														<div class="controls">
+																<input type="text" class="input-xlarge" ng-model="contact.street_no">
+														</div>
+												</div>
+												<div class="control-group">
+														<label class="control-label">Street Name</label>
+														<div class="controls">
+																<input type="text" class="input-xlarge" ng-model="contact.street_nm">
+														</div>
+												</div>
+												<div class="control-group">
+														<label class="control-label">Suburb</label>
+														<div class="controls">
+																<input type="text" class="input-xlarge" name="suburbName" ng-model="contact.suburb_nm" typeahead-min-length="3" typeahead-on-select="onSuburbChange($item, $model, $label)" typeahead="s.suburb for s in suburbsuggest($viewValue)" ng-uppercase-input="">
+														</div>
+												</div>
+												<div class="control-group">
+														<label class="control-label">Postcode</label>
+														<div class="controls">
+																<input type="text" class="input-xlarge" ng-model="contact.postcode">
+														</div>
+												</div>
+												<div class="control-group">
+														<label class="control-label">City</label>
+														<div class="controls">
+																<input type="text" class="input-xlarge" ng-model="contact.city">
+														</div>
+												</div>
+												<div class="control-group">
+														<label class="control-label">State</label>
+														<div class="controls">
+																<input type="text" class="input-xlarge" ng-model="contact.state">
+														</div>
+												</div>
+												<div class="control-group">
+														<label class="control-label">Country</label>
+														<div class="controls">
+																<input type="text" class="input-xlarge" ng-model="contact.country">
+														</div>
+												</div>
+										</div>
+										<!-- end address Info  -->
+
+
+										<div class="form-box">
+												<h6 class="sideheader">Relation</h6>
+
+												<div class="control-group" style="clear:both">
+														<label class="control-label">Interests</label>
+														<div class="controls">
+																<input type="text" class="input-xlarge" ng-model="contact.interests">
+														</div>
+												</div>
+												<div class="control-group">
+														<label class="control-label">Category</label>
+														<div class="controls">
+																<select ng-model="contact.dept_sun" class="input-large" ng-options="d.department_no as d.department_nm for d in departments"></select>
+														</div>
+												</div>
+												<div class="control-group">
+														<label class="control-label">Sub-category</label>
+														<div class="controls">
+																<select ng-model="contact.interest_sun" class="input-large" ng-options="i.interest_no as i.interest_nm for i in interests"></select>
+														</div>
+												</div>
+												<div class="control-group">
+														<label class="control-label">Contact Log</label>
+														<div class="controls">
+																<textarea ng-model="contact.log" class="input-xlarge" rows="9"></textarea>
+														</div>
+												</div>
+
+										</div>
+										<!-- end Music Dep -->
+
+								</div>
+								<!-- end span 6  -->
+
+						</div>
+						<!-- end row  -->
+
+						<div class="inline pad-top">
+								<button type="submit" ng-click="saveContact();" class="btn btn-primary">{{submitType}}</button>
+								<button ng-hide="submitType == '/contacts/new/contact'" type="submit" ng-click="deleteContact();" class="btn btn-danger">Delete</button>
+						</div>
+
+				</div>
+		</fieldset>
+</form>

@@ -1,0 +1,133 @@
+<div class="row">
+	<div class="large-12 columns">
+		<h3>Subscribers</h3>
+	</div>
+	<form name="subscriberSearchForm" ng-submit="search()">
+	<div class="large-8 small-12 columns">
+			<input type="search" name="subName" placeholder="Name" ng-model="subscriberSearchFormData.subName" typeahead-min-length="3" typeahead="sub for sub in subsuggest($viewValue) | limitTo:15" ng-uppercase-input2 autofocus />
+	</div>
+	<div class="large-2 small-12 columns">
+		<button class="button small radius right" type="submit" id="search-button" ng-disabled="subscriberSearchForm.$pristine">Search</button>
+	</div>
+	<div class="large-2 small-12 columns">
+		<button class="button small alert right" type="button" ng-click="clearForm();" id="clear-button" ng-disabled="subscriberSearchForm.$pristine">Clear</button>
+	</div>
+	<div class="large-12 columns" ng-show="isAdvanced">
+		<div class="panel radius">
+			<div class="large-4 small-12 columns">
+				<input class="input-medium search-query" type="search" name="subemail" ng-model="subscriberSearchFormData.subemail" placeholder="Email" />
+			</div>
+			<div class="large-4 small-12 columns">
+				<input class="input-small search-query" type="search" name="subnumber" ng-model="subscriberSearchFormData.subnumber" placeholder="Sub Number" />
+			</div>
+			<div class="large-4 small-12 columns">
+				<input class="input-medium search-query" type="search" name="subbusinessname" ng-model="subscriberSearchFormData.subbusinessname" placeholder="Business" ng-uppercase-input2 />
+			</div>
+			<div class="large-4 small-12 columns">
+				<input class="input-medium search-query" type="search" name="subbandname" ng-model="subscriberSearchFormData.subbandname" placeholder="Band" />
+			</div>
+			<button ng-click="expiresToday();" class="button tiny button-green">Expires Today</button>
+		</div>
+	</div>
+	</form>
+	<div class="large-12 columns">
+		<div class="row">
+			<div class="large-2 small-12 columns">
+				<button class="button tiny is-button-blank radius" href="" ng-click="isAdvanced = !isAdvanced" >Advanced Search</button>
+			</div>
+			<div class="large-7 small-12 columns">
+				<small>How to search:
+					<strong>Lastname, First</strong>(will autocomplete),
+					<strong>Firstname Last</strong>(will get full name),
+					<strong>Eithername</strong>, (will search first and last names for your entry).
+				</small>
+			</div>
+			<div class="large-3 small-12 columns right">
+				<button class="button tiny radius is-button-green right" ng-click="addNew();">Add New Subscriber</button>
+			</div>
+		</div>
+	</div>
+
+	<div class="large-12 columns">
+		<h5 ng-show="subs.$resolved">{{subs.length}} subscribers found.</h5>
+		<h5 ng-show="sub.$resolved">1 subscriber found.</h5>
+	</div>
+	<div ng-show="sub.$resolved" class="large-12 columns search__results">
+		<table>
+			<tr>
+				<th><a href="" ng-click="predicate = 'sublastname'; reverse=!reverse">Name</a>
+				</th>
+				<th><a href="" ng-click="predicate = 'sublastname'; reverse=!reverse">Business Name</a>
+				</th>
+				<th><a href="" ng-click="predicate = 'sublastname'; reverse=!reverse">Band Name</a>
+				</th>
+				<th><a href="" ng-click="predicate = 'sublastname'; reverse=!reverse">Pet Name</a>
+				</th>
+				<th><a href="" ng-click="predicate = 'subnumber'; reverse=!reverse">Sub Number</a>
+				</th>
+				<th><a href="" ng-click="predicate = 'subscription.subtypecode'; reverse=!reverse">Sub Type</a>
+				</th>
+				<th><a href="" ng-click="predicate = 'createddate'; reverse=!reverse">Date Joined</a>
+				</th>
+			</tr>
+			<tr>
+				<td><a href="#/subscribers/{{sub.subnumber}}">{{sub.subfirstname}} {{sub.sublastname}}</a>
+				</td>
+				<td>{{sub.subbusinessname}}</td>
+				<td>{{sub.subbandname}}</td>
+				<td>{{sub.petname}}</td>
+				<td>{{sub.subnumber}}</td>
+				<td>{{sub.subscription.subtypecode}}</td>
+				<td>{{sub.createddate | date:'dd/MM//yyyy' }}</td>
+			</tr>
+		</table>
+	</div>
+	<div ng-show="subs.$resolved && subs.length != 0" class="large-12 columns search__results">
+		<table class="table table-striped">
+				<tr>
+					<th><a href="" ng-click="predicate = 'sublastname'; reverse=!reverse">Name</a>
+					</th>
+					<th><a href="" ng-click="predicate = 'sublastname'; reverse=!reverse">Business Name</a>
+					</th>
+					<th><a href="" ng-click="predicate = 'sublastname'; reverse=!reverse">Band Name</a>
+					</th>
+					<th><a href="" ng-click="predicate = 'sublastname'; reverse=!reverse">Pet Name</a>
+					</th>
+					<th><a href="" ng-click="predicate = 'subnumber'; reverse=!reverse">Sub Number</a>
+					</th>
+					<th><a href="" ng-click="predicate = 'subscription.subtypecode'; reverse=!reverse">Sub Type</a>
+					</th>
+					<th><a href="" ng-click="predicate = 'createddate'; reverse=!reverse">Date Joined</a>
+					</th>
+				</tr>
+				<tr ng-repeat="sub in subs track by sub.subnumber  | orderBy:predicate:reverse">
+					<td><a href="#/subscribers/{{sub.subnumber}}">{{sub.subfirstname}} {{sub.sublastname}}</a>
+					</td>
+					<td>{{sub.subbusinessname}}</td>
+					<td>{{sub.subbandname}}</td>
+					<td>{{sub.petname}}</td>
+					<td>{{sub.subnumber}}</td>
+					<td>{{sub.subscription.subtypecode}}</td>
+					<td>{{sub.createddate}}</td>
+				</tr>
+			</table>
+		</div>
+	<div class="large-12 columns search__results" ng-show="subs.$resolved && subs.length == 0">
+		<h3>No one found yo!</h3>
+	</div>
+
+
+
+
+	<div class="large-12 small-12 columns">
+		<div class="row">
+			<!-- Column 1 -->
+			<!-- <div class="large-3 columns panel side-nav-subs">
+			<ul class="side-nav">
+				<li ng-repeat="sub in subs track by sub.subnumber" ng-class="{active: sub.selected}"><a ng-href="/subscribers/{{sub.subnumber}}" ng-click="selectSub(sub)">{{sub.subfirstname}} {{sub.sublastname}} - {{sub.subnumber}}</a>
+				</li>
+			</ul>
+		</div> -->
+			<div ui-view></div>
+		</div>
+	</div>

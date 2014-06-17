@@ -1,0 +1,217 @@
+<form name="subForm" ng-submit="saveSub()">
+		<div class="small-12 large-12 columns">
+			<div class="row">
+				<div class="small-12 large-12 columns text-center" ng-show="saved.length > 0">
+					<div class="is-panel-success">
+						<h3>{{saved}}</h3>
+					</div>
+				</div>
+				<div class="large-12 columns">
+					<div class="row desktop__border-bottom">
+						<div class="large-9 small-12 columns">
+							<h1>{{fullname}}</h1>
+						</div>
+						<div class="large-3 small-12 columns">
+							<ul class="inline-list right">
+								<li><strong>Sub no:</strong> {{sub.subnumber}}</li>
+								<li><strong>Updated at:</strong> {{sub.updated_at | date:'dd/MM/yyyy' }}</li>
+							</ul>
+						</div>
+					</div>
+				</div>
+
+				<div class="large-12 columns gutter-top">
+					<div class="row">
+						<div class="large-4 small-12 columns">
+							<div class="large-12 small-12 columns">
+								<label>First Name</label>
+								<input type="text" ng-model="sub.subfirstname" placeholder="First Name" ng-required ng-uppercase-input />
+							</div>
+							<div class="large-12 small-12 columns">
+								<label>Last Name</label>
+								<input type="text" ng-model="sub.sublastname" placeholder="Last Name" ng-required ng-uppercase-input />
+							</div>
+							<div class="large-12 small-12 columns">
+								<label>Email</label>
+								<input type="email" ng-model="sub.subemail" placeholder="Email" />
+							</div>
+							<div class="large-12 small-12 columns">
+								<label>Phone</label>
+								<input type="text" ng-model="sub.submobile" placeholder="Phone" />
+							</div>
+							<div class="large-2 small-12 columns">
+								<label>Gender</label>
+								<select ng-model="sub.gender" class="input-small" ng-options="g.id as g.desc for g in gender">
+                            <option></option>
+                        </select>
+							</div>
+							<div class="large-12 small-12 columns">
+								<label>Website</label>
+								<input type="text" ng-model="sub.suburl">
+							</div>
+							<div class="large-12 small-12 columns">
+								<label>Comments</label>
+								<textarea ng-model="sub.subcomment" rows="12"></textarea>
+							</div>
+						</div>
+						<div class="large-4 small-12 columns">
+							<div class="large-12 small-12 columns">
+								<label>Address</label>
+								<input type="text" ng-model="sub.subaddress1" placeholder="Address" />
+							</div>
+							<div class="large-12 small-12 columns">
+								<label>Address</label>
+								<input type="text" ng-model="sub.subaddress2" placeholder="Address" />
+							</div>
+							<div class="large-6 small-12 columns">
+								<label for="">Postcode</label>
+								<input type="text" ng-model="sub.suburb.postcode" ng-disabled="true"/>
+							</div>
+							<div class="large-6 small-12 columns">
+								<label>Suburb</label>
+									<input type="search" name="suburb" placeholder="Suburb" ng-model="sub.suburb.suburb" typeahead-min-length="3" typeahead="s.suburb +  ' ' + s.postcode for s in suburbsuggest($viewValue) | limitTo:15 " typeahead-on-select='onSuburbChange($item, $model, $label)' ng-required ng-uppercase-input />
+							</div>
+							<div class="large-12 small-12 columns">
+								<label>State</label>
+								<input type="text" ng-model="sub.suburb.state" placeholder="" />
+							</div>
+							<div class="large-12 small-12 columns">
+								<label>Program</label>
+								<select ng-model="sub.program_id" class="input-large" ng-options="p.id as p.programname for p in programs"></select>
+							</div>
+						</div>
+						<div class="large-4 small-12 columns">
+							<div class="large-12 small-12 columns">
+								<label for="subType">Sub type</label>
+								<select ng-model="sub.subtype_id" name="subType" class="input-large" ng-options="s.id as s.subtypecode for s in subtypes" ng-required />
+							</div>
+							<div class="large-12 small-12 columns">
+								<label>Receipt #</label>
+								<input type="text" ng-model="sub.receiptnumber" placeholder="" disabled />
+							</div>
+							<div class="large-12 small-12 columns">
+								<label>Donation</label>
+								<input type="text" ng-model="sub.donation" placeholder="" />
+							</div>
+							<div class="large-12 small-12 columns">
+								<label>Paid Date</label>
+								<input type="text" show-button-bar="false" show-weeks="false" datepicker-popup="dd/MM/yyyy"
+								ng-model="sub.paymentdate" close-text="Close" />
+							</div>
+							<div class="large-12 small-12 columns">
+								<label>Expiry Date</label>
+								<input type="text" show-button-bar="false" show-weeks="false" datepicker-popup="dd/MM/yyyy"
+								ng-model="sub.expirydate" close-text="Close" />
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<div class="large-12 columns gutter-top">
+					<div class="row ">
+				<div class="large-4 small-12 columns">
+					<label>Email</label>
+					<input type="email" ng-model="sub.subemail" placeholder="Email" />
+				</div>
+				<div class="large-4 small-12 columns">
+					<label>First Name</label>
+					<input type="text" ng-model="sub.subfirstname" placeholder="First Name" ng-required ng-uppercase-input />
+				</div>
+				<div class="large-4 small-12 columns">
+					<label>Address</label>
+					<input type="text" ng-model="sub.subaddress1" placeholder="" />
+				</div>
+				<div class="large-2 small-12 columns">
+					<label for="">Postcode</label>
+					<input type="text" ng-model="sub.suburb.postcode" ng-disabled="true"/>
+				</div>
+				<div class="large-2 small-12 columns">
+					<label>Suburb</label>
+						<input type="search" name="suburb" placeholder="Suburb" ng-model="sub.suburb.suburb" typeahead-min-length="3" typeahead="s.suburb +  ' ' + s.postcode for s in suburbsuggest($viewValue) | limitTo:15 " typeahead-on-select='onSuburbChange($item, $model, $label)' ng-required ng-uppercase-input />
+				</div>
+				<div class="large-4 small-12 columns">
+					<label>Last Name</label>
+					<input type="text" ng-model="sub.sublastname" placeholder="Last Name" ng-required ng-uppercase-input />
+				</div>
+
+				<div class="large-4 small-12 columns">
+					<label>Address</label>
+					<input type="text" ng-model="sub.subaddress2" placeholder="" />
+				</div>
+				<div class="large-4 small-12 columns">
+					<label>Website</label>
+					<input type="text" ng-model="sub.suburl">
+				</div>
+				<div class="large-4 small-12 columns">
+					<label>Business</label>
+					<input type="text" ng-model="sub.subbusinessname" placeholder="" />
+				</div>
+				<div class="large-4 small-12 columns">
+					<label>Community Group</label>
+					<input type="text" ng-model="sub.subcommunitygroup" placeholder="" />
+				</div>
+				<div class="large-4 small-12 columns">
+					<label>Artworker</label>
+					<input type="text" ng-model="sub.subartistname" placeholder="" />
+				</div>
+				<div class="large-4 small-12 columns">
+					<label>Musician</label>
+					<input type="text" ng-model="sub.submusicianname" placeholder="" />
+				</div>
+				<div class="large-4 small-12 columns">
+					<label>Pet Name</label>
+					<input type="text" ng-model="sub.petname" placeholder="" />
+				</div>
+				<div class="large-4 small-12 columns">
+					<label>Comments</label>
+					<textarea ng-model="sub.subcomment" rows="12"></textarea>
+				</div>
+				<div class="large-4 small-12 columns">
+					<label>State</label>
+					<input type="text" ng-model="sub.petname" placeholder="" />
+				</div>
+				<div class="large-4 small-12 columns">
+					<label>Donation</label>
+					<input type="text" ng-model="sub.donation" placeholder="" />
+				</div>
+				<div class="large-4 small-12 columns">
+					<label>Program</label>
+					<select ng-model="sub.program_id" class="input-large" ng-options="p.id as p.programname for p in programs"></select>
+				</div>
+				<div class="large-4 small-12 columns">
+					<label for="subType">Sub type</label>
+					<select ng-model="sub.subtype_id" name="subType" class="input-large" ng-options="s.id as s.subtypecode for s in subtypes" ng-required />
+				 </div>
+				<div class="large-4 small-12 columns">
+					<label>Paid Date</label>
+					<input type="text" show-button-bar="false" show-weeks="false" datepicker-popup="dd/MM/yyyy"
+					ng-model="sub.paymentdate" close-text="Close" />
+				</div>
+				<div class="large-4 small-12 columns">
+				<div class="row"></div>
+					<label>Expiry Date</label>
+					<input type="text" show-button-bar="false" show-weeks="false" datepicker-popup="dd/MM/yyyy"
+					ng-model="sub.expirydate" close-text="Close" />
+					<!-- <input type="text" ng-model="sub.expirydate" data-date-format="dd/mm/yyyy" bs-datepicker data-date-today-highlight="true" data-date-today-btn="linked" /> -->
+
+				</div>
+				<div class="large-4 small-12 columns">
+					<label>Receipt #</label>
+					<input type="text" ng-model="sub.receiptnumber" placeholder="" disabled />
+				</div>
+
+
+
+			</div>
+			<div class="row">
+				<div class="small-12 large-3 columns">
+					<input type="hidden" ng-model="sub.suburb_id" />
+					<button type="submit" ng-disabled="subForm.$invalid" class="button small radius">Submit</button>
+				</div>
+			</div>
+		</div>
+		</div>
+		</div>
+	<!-- Column 2 -->
+
+</form>

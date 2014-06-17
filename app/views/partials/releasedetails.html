@@ -1,0 +1,333 @@
+<form class="form-horizontal"  name="releaseForm">
+	<fieldset>
+		<div class="container-fluid">
+			<div class="row grey-border-bottom" style="padding-bottom:10px;">
+				<div ng-hide="submitType == '/releases/new/release'">
+					<h2>{{release.artist_nm}} - {{release.title}}</h2>
+					<div>
+						<ul class="inline" style="width:500px; float:left;">
+							<li>
+								<strong>ID:</strong> {{release.library_no}}</li>
+							<li>
+								<strong>Created:</strong> {{release.created_at}}</li>
+							<li>
+								<strong>Last Updated:</strong> {{release.updated_at}}</li>
+							<li style="margin-left:40px" ng-show="subscriber.subnumber">
+								<strong>Subscriber ID:</strong> {{subscriber.subnumber}}</li>
+							<li ng-show="subscriber.subnumber">
+								<strong>Expiry Date:</strong> {{subscriber.expirydate}}</li>
+						</ul>
+					</div>
+
+				</div>
+				<h2 ng-show="submitType == '/releases/new/release'">Add New Release</h2>
+				<div class="clearfix">
+					<alert ng-repeat="alert in alerts" type="alert.type" close="closeAlert($index)">{{ alert.msg }}</alert>
+				</div>
+			</div>
+			<div class="row-fluid">
+				<div class="span6">
+					<div class="form-box">
+						<h6 class="sideheader">Music/Album</h6>
+						<div class="control-group" style="clear:both">
+							<label class="control-label">Artist</label>
+							<div class="controls">
+								<input type="text" class="input-xlarge" ng-uppercase-input2 ng-model="release.artist_nm" required >
+							</div>
+						</div>
+						<div class="control-group">
+							<label class="control-label">Title</label>
+							<div class="controls">
+								<input type="text" class="input-xlarge" ng-uppercase-input2="" ng-model="release.title" ng-change="relCheck(release.artist_nm, release.title)" ngRequired >
+							</div>
+							<!-- <div style="padding:10px;margin-top:10px;" class="alert alert-error" ng-show="relsuggest.length != 0">
+								<strong>Hey! A release by this title and artist already exists. Please check if they are the same.</strong>
+								<ul class="unstyled" style="margin-top:10px;">
+									<li ng-repeat="r in relsuggest"><a href="/releases/{{r.library_no}}">{{r.artist_nm}} {{r.title}} - {{r.release_year}}</a>
+									</li>
+								</ul>
+							</div> -->
+						</div>
+						<div class="control-group controls-row">
+							<label class="control-label" style="margin-right:5px">APRA Code</label>
+							<input type="text" class="span3" ng-model="release.apra_code">
+							<label class="control-label" style="margin-right:5px">Release Year</label>
+							<input type="text" class="span3" ng-model="release.release_year">
+						</div>
+						<div class="control-group">
+							<label class="control-label">Album Label</label>
+							<div class="controls">
+								<!--<input ng-uppercase-input2 type="text" class="input-xlarge" ng-model="release.album_label">-->
+								<input class="input-xlarge" type="text" placeholder="Label" ng-model="release.album_label" typeahead="suggestion for suggestion in labels($viewValue)" ng-uppercase-input2 />
+							</div>
+						</div>
+						<div class="control-group controls-row" style="padding:10px 0">
+							<span style="float:left;margin-left:25px">
+								<label class="checkbox inline">
+									<input type="checkbox" ng-model="release.cont_female" ng-true-value="F" ng-false-value="">Female?</label>
+								<label class="checkbox inline">
+									<input type="checkbox" ng-model="release.cont_local" ng-true-value="L" ng-false-value="">Local?</label>
+							</span>
+							<label class="control-label" style="margin-right:5px">Aus/NZ?</label>
+							<select ng-model="release.cont_ausnz" class="span3" ng-options="a for a in ausnz">
+								<option></option>
+							</select>
+						</div>
+						<div class="control-group">
+							<label class="control-label">Home Town</label>
+							<div class="controls">
+								<input ng-uppercase-input2 type="text" class="input-xlarge" ng-model="release.artist_hometown">
+							</div>
+						</div>
+						<div class="control-group">
+							<label class="control-label">Country</label>
+							<div class="controls">
+								<input select-on-click ng-uppercase-input2 type="text" class="input-xlarge" ng-model="release.album_origin">
+							</div>
+						</div>
+						<div class="control-group">
+							<label class="control-label">Artist Email</label>
+							<div class="controls">
+								<input type="email" class="input-xlarge" ng-model="release.artist_email"><a target="_blank" ng-show="release.artist_email" style="margin-left:10px;" href="mailto:{{release.artist_email}}"><i class="icon-upload"></i></a>
+							</div>
+						</div>
+						<div class="control-group">
+							<label class="control-label">Website</label>
+							<div class="controls">
+								<input type="url" class="input-xlarge" ng-model="release.artist_website"> <a target="_blank" ng-show="release.artist_website" style="margin-left:10px;" href="{{release.artist_website}}"><i class="icon-upload"></i></a>
+							</div>
+						</div>
+						<div class="control-group controls-row">
+							<label class="control-label" style="margin-right:5px">Genre 1</label>
+							<select ng-model="release.cont_genre" class="span3" ng-options="g.genre_id as g.genre_desc for g in genres">
+								<option></option>
+							</select>
+							<label class="control-label" style="margin-right:5px">Genre 2</label>
+							<select ng-model="release.cont_subgenre" class="span3" ng-options="g.genre_id as g.genre_desc for g in genres">
+								<option></option>
+							</select>
+						</div>
+						<div class="control-group controls-row">
+							<label class="control-label" style="margin-right:5px">Genres</label>
+							<select ui-select2="genreSelectOptions" ng-model="gs" class="input-xlarge" multiple placeholder="Genre">
+								<option ng-repeat="g in genresnew" value="{{g.id}}">{{g.genre}}</option>
+							</select>
+						</div>
+					</div>
+					<!-- end music/album section -->
+					<div class="form-box">
+						<h6 class="sideheader">Release Info</h6>
+						<div class="control-group" style="clear:both">
+							<label class="control-label">Producer</label>
+							<div class="controls">
+								<input type="text" ng-uppercase-input2 class="input-xlarge" ng-model="release.album_producer">
+							</div>
+						</div>
+						<div class="control-group">
+							<label class="control-label">Songwriter</label>
+							<div class="controls">
+								<input type="text" class="input-xlarge" ng-uppercase-input2 ng-model="release.album_songwriter">
+							</div>
+						</div>
+						<div class="control-group controls-row">
+							<label class="control-label" style="margin-right:5px">Recorded At</label>
+							<input type="text" class="span4" ng-uppercase-input2 ng-model="release.album_record_at">
+							<label class="control-label" style="margin-right:5px">Date</label>
+							<input type="text" class="span3" ng-model="release.album_record_dt" data-date-format="yyyy/mm/dd" bs-datepicker="">
+						</div>
+						<div class="control-group">
+							<label class="control-label">Comments</label>
+							<div class="controls">
+								<textarea rows="15" ng-model="release.comments" class="input-xlarge"></textarea>
+							</div>
+						</div>
+					</div>
+					<!-- end release info section -->
+				</div>
+				<!-- end span 6 -->
+				<div class="span6">
+					<!-- Track Info -->
+					<div class="form-box">
+						<h6 class="sideheader">Track Info</h6>
+						<table>
+							<tr>
+								<th>#</th>
+								<th>Track Name</th>
+								<th>Lang.</th>
+								<th>Concept</th>
+								<th>THEME</th>
+								<th>THEME</th>
+							</tr>
+							<tr>
+								<td>
+									<input type="text" style="width:20px" class="caps" ng-uppercase-input2 ng-model="release.track1_num">
+								</td>
+								<td>
+									<input type="text" class="input-small" ng-uppercase-input2 ng-model="release.track1_name">
+								</td>
+								<td>
+									<input type="checkbox" ng-model="release.track1_language">
+
+								</td>
+								<td>
+									<input type="checkbox" ng-model="release.track1_concept">
+								</td>
+								<td>
+									<select ng-model="release.track1_theme1" class="input-small" ng-options="t.theme_id as t.theme_desc for t in themes"></select>
+								</td>
+								<td>
+									<select ng-model="release.track1_theme2" class="input-small" ng-options="t.theme_id as t.theme_desc for t in themes"></select>
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<input type="text" style="width:20px" ng-model="release.track2_num">
+								</td>
+								<td>
+									<input type="text" class="input-small" ng-model="release.track2_name" ng-uppercase-input2>
+								</td>
+								<td>
+									<input type="checkbox" ng-model="release.track2_language">
+								</td>
+								<td>
+									<input type="checkbox" ng-model="release.track2_concept">
+								</td>
+								<td>
+									<select ng-model="release.track2_theme1" class="input-small" ng-options="t.theme_id as t.theme_desc for t in themes"></select>
+								</td>
+								<td>
+									<select ng-model="release.track2_theme2" class="input-small" ng-options="t.theme_id as t.theme_desc for t in themes"></select>
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<input type="text" style="width:20px" ng-model="release.track3_num">
+								</td>
+								<td>
+									<input type="text" class="input-small" ng-model="release.track3_name" ng-uppercase-input2>
+								</td>
+								<td>
+									<input type="checkbox" ng-model="release.track3_language">
+								</td>
+								<td>
+									<input type="checkbox" ng-model="release.track3_concept">
+								</td>
+								<td>
+									<select ng-model="release.track3_theme1" class="input-small" ng-options="t.theme_id as t.theme_desc for t in themes"></select>
+								</td>
+								<td>
+									<select ng-model="release.track3_theme2" class="input-small" ng-options="t.theme_id as t.theme_desc for t in themes"></select>
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<input type="text" style="width:20px" ng-model="release.track4_num">
+								</td>
+								<td>
+									<input type="text" class="input-small" ng-model="release.track4_name" ng-uppercase-input2>
+								</td>
+								<td>
+									<input type="checkbox" ng-model="release.track4_language">
+								</td>
+								<td>
+									<input type="checkbox" ng-model="release.track4_concept">
+								</td>
+								<td>
+									<select ng-model="release.track4_theme1" class="input-small" ng-options="t.theme_id as t.theme_desc for t in themes"></select>
+								</td>
+								<td>
+									<select ng-model="release.track4_theme2" class="input-small" ng-options="t.theme_id as t.theme_desc for t in themes"></select>
+								</td>
+							</tr>
+						</table>
+					</div>
+					<!-- end Track Info -->
+					<div class="form-box">
+						<h6 class="sideheader">Music Department</h6>
+						<div class="control-group controls-row" style="clear:both">
+							<label class="control-label" style="margin-right:5px">Sent Format</label>
+							<select ng-model="release.format_submitted" class="span3" ng-options="f for f in format">
+								<option></option>
+							</select>
+							<label class="control-label" style="margin-right:5px"># submitted</label>
+							<input type="text" class="span2" ng-model="release.release_numgiven">
+						</div>
+						<div class="control-group controls-row">
+							<label class="control-label" style="margin-right:5px">Lib. Format</label>
+							<select ng-model="release.format_stored" class="span3" ng-options="f for f in format">
+								<option></option>
+							</select>
+							<label class="control-label" style="margin-right:5px">Condition</label>
+							<input type="text" class="span2" ng-model="release.media_cond" ng-uppercase-input2>
+						</div>
+						<div class="control-group">
+							<label class="control-label">Log</label>
+							<div class="controls">
+								<textarea ng-uppercase-input2 ng-model="release.release_location" class="input-xlarge"></textarea>
+							</div>
+						</div>
+						<div class="control-group">
+							<label class="control-label">Status</label>
+							<div class="controls">
+								<select ng-model="release.status" class="input-large" ng-options="s for s in status">
+									<option></option>
+								</select>
+							</div>
+						</div>
+						<div class="control-group">
+							<label class="control-label">Reviewed</label>
+							<div class="controls">
+								<input type="text" class="input-xlarge" ng-model="release.release_reviewed" ng-uppercase-input2>
+							</div>
+						</div>
+						<div class="control-group">
+							<label class="control-label">Returned</label>
+							<div class="controls">
+								<input type="text" class="input-xlarge" ng-model="release.release_returned" ng-uppercase-input2>
+							</div>
+						</div>
+						<div class="control-group">
+							<label class="control-label">Rejected</label>
+							<div class="controls">
+								<input type="text" class="input-xlarge" ng-model="release.release_rejected" ng-uppercase-input2>
+							</div>
+						</div>
+						<div class="control-group">
+							<label class="control-label">User</label>
+							<div class="controls">
+								<input type="text" class="input-xlarge" ng-model="release.modify_user">
+							</div>
+						</div>
+					</div>
+					<!-- end Music Dep -->
+					<div class="form-box">
+						<h6 class="sideheader">Release Support</h6>
+						<div class="control-group controls-row" style="clear:both">
+							<label class="control-label" style="margin-right:5px">Promotions</label>
+							<select ng-model="release.support_choice" class="span3" ng-options="p for p in promo">
+								<option></option>
+							</select>
+							<label class="control-label" style="margin-right:5px">Interview</label>
+
+							<input type="text" class="span3" ng-model="release.interview_dt" data-date-format="yyyy/mm/dd" bs-datepicker="">
+						</div>
+						<div class="control-group">
+							<label class="control-label">Comments</label>
+							<div class="controls">
+								<textarea ng-model="release.release_notes" class="input-xlarge" rows="10"></textarea>
+							</div>
+						</div>
+					</div>
+					<!-- end support section -->
+				</div>
+				<!-- end span 6 -->
+			</div>
+			<!-- end row -->
+
+			<div class="inline pad-top">
+				<button type="submit" ng-disabled="releaseForm.$invalid" ng-click="saveRelease();" class="button tiny radius is-button-green ">{{submitType}}</button>
+				<button ng-hide="submitType == '/releases/new/release'" type="submit" ng-click="deleteRelease();" class="button tiny radius alert">Delete</button>
+			</div>
+		</div>
+	</fieldset>
+</form>

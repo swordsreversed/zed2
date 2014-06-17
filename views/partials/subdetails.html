@@ -1,0 +1,41 @@
+<form>
+
+		<div class="small-12 large-12 columns">
+			<div class="row">
+				<div class="large-12 small-12 columns">
+					<h1>{{fullname}}</h1>
+				</div>
+				<div class="large-12 small-12 columns">
+					<label>Email</label>
+					<input type="email" ng-model="sub.subemail" placeholder="Email" />
+				</div>
+				<div class="large-12 small-12 columns">
+					<label>First Name</label>
+					<input type="text" ng-model="sub.subfirstname" placeholder="Surname" />
+				</div>
+				<div class="large-12 small-12 columns">
+					<label>Surname</label>
+					<input type="text" ng-model="sub.sublastname" placeholder="Surname" />
+				</div>
+				<div class="large-6 small-12 columns">
+					<label>Gender</label>
+				  <select>
+					<option value="M">Male</option>
+					<option value="F">Female</option>
+					<option value="T">Transgender</option>
+				  </select>
+				</div>
+				<div class="large-6 small-12 columns">
+					<label for="">Postcode</label>
+					<input type="text" ng-model="sub.postcode" required />
+				</div>
+			</div>
+			<div class="row">
+				<div class="small-12 large-3 columns">
+					<button class="button small">Submit</button>
+				</div>
+			</div>
+		</div>
+	<!-- Column 2 -->
+
+</form>
