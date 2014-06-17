@@ -4,3 +4,4 @@ public/bower_components
 .sass-cache
 app/bower_components
 heroku
+npm-debug.log
